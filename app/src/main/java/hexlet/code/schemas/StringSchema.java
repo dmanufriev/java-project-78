@@ -1,12 +1,12 @@
 package hexlet.code.schemas;
 
 public class StringSchema implements BaseSchema<String> {
-    private boolean required;
+    private boolean needRequired;
     private int minLength;
-    private String substring;
+    private String needSubstring;
 
     public StringSchema required() {
-        required = true;
+        needRequired = true;
         return this;
     }
 
@@ -16,7 +16,7 @@ public class StringSchema implements BaseSchema<String> {
     }
 
     public StringSchema contains(String substr) {
-        this.substring = substr;
+        this.needSubstring = substr;
         return this;
     }
 
@@ -24,14 +24,14 @@ public class StringSchema implements BaseSchema<String> {
     public boolean isValid(String string) {
 
         if ((null == string) || (string.isEmpty())) {
-            return !required;
+            return !needRequired;
         }
 
         if (string.length() < minLength) {
             return false;
         }
 
-        if ((null != substring) && !string.contains(substring)) {
+        if ((null != needSubstring) && !string.contains(needSubstring)) {
             return false;
         }
 

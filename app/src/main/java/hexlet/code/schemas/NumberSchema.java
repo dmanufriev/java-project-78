@@ -1,6 +1,6 @@
 package hexlet.code.schemas;
 
-public class NumberSchema implements BaseSchema<Integer> {
+public final class NumberSchema implements BaseSchema<Integer> {
     private boolean needRequired;
     private boolean needPositive;
     private Integer minValue;

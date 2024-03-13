@@ -2,10 +2,10 @@ package hexlet.code.schemas;
 
 import java.util.Map;
 
-public class MapSchema implements BaseSchema<Map<String, String>> {
+public final class MapSchema implements BaseSchema<Map> {
     private boolean needRequired;
     private Integer sizeLimit;
-    private Map<String, BaseSchema<String>> fieldsSchema;
+    private Map<String, BaseSchema> fieldsSchema;
 
     public MapSchema required() {
         needRequired = true;
@@ -17,8 +17,13 @@ public class MapSchema implements BaseSchema<Map<String, String>> {
         return this;
     }
 
+    public MapSchema shape(Map<String, BaseSchema> schemas) {
+        this.fieldsSchema = schemas;
+        return this;
+    }
+
     @Override
-    public boolean isValid(Map<String, String> map) {
+    public boolean isValid(Map map) {
 
         if (null == map) {
             return !needRequired;
@@ -32,7 +37,7 @@ public class MapSchema implements BaseSchema<Map<String, String>> {
 
         if (null != fieldsSchema) {
             for (var key : map.keySet()) {
-                BaseSchema<String> keySchema = fieldsSchema.get(key);
+                BaseSchema keySchema = fieldsSchema.get(key);
                 if (null != keySchema) {
                     if (!keySchema.isValid(map.get(key))) {
                         return false;
@@ -44,7 +49,4 @@ public class MapSchema implements BaseSchema<Map<String, String>> {
         return true;
     }
 
-    public void shape(Map<String, BaseSchema<String>> schemas) {
-        this.fieldsSchema = schemas;
-    }
 }

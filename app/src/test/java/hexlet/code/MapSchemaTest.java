@@ -1,4 +1,5 @@
-import hexlet.code.Validator;
+package hexlet.code;
+
 import hexlet.code.schemas.BaseSchema;
 import hexlet.code.schemas.MapSchema;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +10,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class MapSchemaTest {
+public final class MapSchemaTest {
     private Validator v;
     private MapSchema schema;
 
@@ -40,31 +41,44 @@ public class MapSchemaTest {
 
     @Test
     void shapesTest() {
-        // ТОDO Добавить поле, проверяющее возраст. NumberSchema!!!
-        Map<String, BaseSchema<String>> schemas = new HashMap<>();
+
+        Map<String, BaseSchema> schemas = new HashMap<>();
         schemas.put("firstName", v.string().required());
         schemas.put("lastName", v.string().required().minLength(2));
+        schemas.put("age", v.number().required().range(18, 100));
         schema.shape(schemas);
 
-        Map<String, String> human1 = new HashMap<>();
+        // Полное соответствие схеме
+        Map<String, Object> human1 = new HashMap<>();
         human1.put("firstName", "John");
         human1.put("lastName", "Smith");
+        human1.put("age", 20);
         assertThat(schema.isValid(human1)).isEqualTo(true);
 
-        Map<String, String> human2 = new HashMap<>();
-        human2.put("firstName", "John");
-        human2.put("lastName", null);
-        assertThat(schema.isValid(human2)).isEqualTo(false);
+        // Тест на отсутствие поля в проверяемых схемах
+        Map<String, Object> human2 = new HashMap<>();
+        human2.put("firstName", "Anna");
+        human2.put("status", "married");
+        human2.put("age", 70);
+        assertThat(schema.isValid(human2)).isEqualTo(true);
 
-        Map<String, String> human3 = new HashMap<>();
-        human3.put("firstName", "Anna");
-        human3.put("lastName", "B");
+        // Ошибка валидации классом StringSchema
+        Map<String, Object> human3 = new HashMap<>();
+        human3.put("firstName", "John");
+        human3.put("lastName", null);
         assertThat(schema.isValid(human3)).isEqualTo(false);
 
-        // Тест на отсутствие поля в проверяемых схемах
-        Map<String, String> human4 = new HashMap<>();
+        // Ошибка валидации классом StringSchema
+        Map<String, Object> human4 = new HashMap<>();
         human4.put("firstName", "Anna");
-        human4.put("status", "married");
-        assertThat(schema.isValid(human4)).isEqualTo(true);
+        human4.put("lastName", "B");
+        assertThat(schema.isValid(human4)).isEqualTo(false);
+
+        // Ошибка валидации классом NumberSchema
+        Map<String, Object> human5 = new HashMap<>();
+        human5.put("firstName", "John");
+        human5.put("lastName", "Smith");
+        human5.put("age", 10);
+        assertThat(schema.isValid(human5)).isEqualTo(false);
     }
 }

@@ -1,8 +1,8 @@
 package hexlet.code.schemas;
 
-public class StringSchema implements BaseSchema<String> {
+public final class StringSchema implements BaseSchema<String> {
     private boolean needRequired;
-    private int minLength;
+    private Integer needMinLength;
     private String needSubstring;
 
     public StringSchema required() {
@@ -10,8 +10,8 @@ public class StringSchema implements BaseSchema<String> {
         return this;
     }
 
-    public StringSchema minLength(int length) {
-        minLength = length;
+    public StringSchema minLength(Integer minLength) {
+        needMinLength = minLength;
         return this;
     }
 
@@ -27,7 +27,7 @@ public class StringSchema implements BaseSchema<String> {
             return !needRequired;
         }
 
-        if (string.length() < minLength) {
+        if ((null != needMinLength) && (string.length() < needMinLength)) {
             return false;
         }
 

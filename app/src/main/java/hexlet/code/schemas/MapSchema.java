@@ -5,7 +5,7 @@ import java.util.Map;
 public final class MapSchema implements BaseSchema<Map> {
     private boolean needRequired;
     private Integer sizeLimit;
-    private Map<String, BaseSchema> fieldsSchema;
+    private Map<String, BaseSchema<String>> fieldsSchema;
 
     public MapSchema required() {
         needRequired = true;
@@ -17,7 +17,7 @@ public final class MapSchema implements BaseSchema<Map> {
         return this;
     }
 
-    public MapSchema shape(Map<String, BaseSchema> schemas) {
+    public MapSchema shape(Map<String, BaseSchema<String>> schemas) {
         this.fieldsSchema = schemas;
         return this;
     }

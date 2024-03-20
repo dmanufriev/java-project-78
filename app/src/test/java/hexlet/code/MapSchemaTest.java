@@ -42,10 +42,10 @@ public final class MapSchemaTest {
     @Test
     void shapesTest() {
 
-        Map<String, BaseSchema<String>> schemas = new HashMap<>();
+        Map<String, BaseSchema> schemas = new HashMap<>();
         schemas.put("firstName", v.string().required());
         schemas.put("lastName", v.string().required().minLength(2));
-        //schemas.put("age", v.number().required().range(18, 100));
+        schemas.put("age", v.number().required().range(18, 100));
         schema.shape(schemas);
 
         // Полное соответствие схеме
@@ -75,10 +75,10 @@ public final class MapSchemaTest {
         assertThat(schema.isValid(human4)).isEqualTo(false);
 
         // Ошибка валидации классом NumberSchema
-        /*Map<String, Object> human5 = new HashMap<>();
+        Map<String, Object> human5 = new HashMap<>();
         human5.put("firstName", "John");
         human5.put("lastName", "Smith");
         human5.put("age", 10);
-        assertThat(schema.isValid(human5)).isEqualTo(false);*/
+        assertThat(schema.isValid(human5)).isEqualTo(false);
     }
 }

@@ -6,10 +6,10 @@ import java.util.function.Predicate;
 
 public abstract class BaseSchema<T> {
     private Map<String, Predicate<T>> checks = new LinkedHashMap<>();
-    private boolean required = false;
+    private boolean isRequired = false;
 
     protected final void setRequired(boolean required) {
-        this.required = required;
+        isRequired = required;
     }
 
     protected final void addCheck(String checkName, Predicate<T> check) {
@@ -18,7 +18,7 @@ public abstract class BaseSchema<T> {
 
     public final boolean isValid(T value) {
         if (null == value) {
-            return !required;
+            return !isRequired;
         }
         for (Predicate<T> check : checks.values()) {
             if (!check.test(value)) {

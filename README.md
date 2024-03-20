@@ -60,15 +60,13 @@ var v = new Validator();
 var schema = v.map().required().sizeof(2);
 
 // shape позволяет описывать валидацию для значений каждого ключа объекта Map
-Map<String, BaseSchema> schemas = new HashMap<>();
+Map<String, BaseSchema<String>> schemas = new HashMap<>();
 schemas.put("firstName", v.string().required());
 schemas.put("lastName", v.string().required().minLength(2));
-schemas.put("age", v.number().required().range(18, 100));
 schema.shape(schemas);
 
 Map<String, String> human1 = new HashMap<>();
 human1.put("firstName", "John");
 human1.put("lastName", "Smith");
-human1.put("age", 20);
 schema.isValid(human1);
 ```    

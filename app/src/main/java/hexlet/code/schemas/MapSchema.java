@@ -16,7 +16,7 @@ public final class MapSchema extends BaseSchema {
         return this;
     }
 
-    public MapSchema shape(Map<String, BaseSchema> schemas) {
+    public MapSchema shape(Map<String, BaseSchema<String>> schemas) {
         Predicate<Map> shapeCheck = map -> {
             for (var key : map.keySet()) {
                 BaseSchema keySchema = schemas.get(key);
